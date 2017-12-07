@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_library"
+            android:icon="@drawable/ic_library_books_black_24dp"
+            android:title="所有备忘" />
+        <item
+            android:id="@+id/nav_delete"
+            android:icon="@drawable/ic_delete_black_24dp"
+            android:title="回收站" />
+
+    </group>
+
+    <item android:title="Information">
+        <menu>
+            <item
+                android:id="@+id/nav_person"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="个人信息" />
+        </menu>
+    </item>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="分享" />
+        </menu>
+    </item>
+
+</menu>
