@@ -1,5 +1,6 @@
 package com.example.jzy_1996.memorandum;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -23,13 +25,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
-    private ArrayList<HashMap<String,String>> getData(){
-        ArrayList<HashMap<String,String>> data=new ArrayList<>();
-        for(int i=0;i<30;i++)
-        {
+
+    private ArrayList<HashMap<String, String>> getData() {
+        ArrayList<HashMap<String, String>> data = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("ItemTitle", "This is Title.....");
-            map.put("ItemText", "This is text.....");
+            map.put("ItemTitle", "ACL，EMNLP");
+            map.put("ItemText", "11月2日");
             data.add(map);
             data.add(map);
         }
@@ -43,12 +45,22 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listView=(ListView) findViewById(R.id.appbarMain).findViewById(R.id.list_item);
-        SimpleAdapter adapter=new SimpleAdapter(this,getData(),
+        listView = (ListView) findViewById(R.id.appbarMain).findViewById(R.id.list_item);
+        SimpleAdapter adapter = new SimpleAdapter(this, getData(),
                 R.layout.my_listitem,
-                new String[]{"ItemTitle","ItemText"},
-                new int[]{R.id.ItemTitle,R.id.ItemText});
+                new String[]{"ItemTitle", "ItemText"},
+                new int[]{R.id.ItemTitle, R.id.ItemText});
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(MainActivity.this,EditActivity.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
+            }
+        });
 
 //        listView=new ListView(this);
 //        listView.setAdapter(new ArrayAdapter<String>(this,R.layout.content_main,getData()));
