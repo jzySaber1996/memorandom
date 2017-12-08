@@ -5,6 +5,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_new"
+            android:icon="@drawable/ic_create_new_folder_black_24dp"
+            android:title="新建备忘"
+            />
+        <item
             android:id="@+id/nav_library"
             android:icon="@drawable/ic_library_books_black_24dp"
             android:title="所有备忘" />
