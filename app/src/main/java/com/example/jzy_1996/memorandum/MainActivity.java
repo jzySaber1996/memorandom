@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
             }
         });
     }
