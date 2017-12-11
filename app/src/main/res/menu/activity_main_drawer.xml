@@ -10,6 +10,11 @@
             android:title="新建备忘"
             />
         <item
+            android:id="@+id/nav_remind"
+            android:icon="@drawable/ic_access_alarm_black_24dp"
+            android:title="待办提醒"
+            />
+        <item
             android:id="@+id/nav_library"
             android:icon="@drawable/ic_library_books_black_24dp"
             android:title="所有备忘" />
