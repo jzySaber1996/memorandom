@@ -1,6 +1,9 @@
 package com.example.jzy_1996.memorandum;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,6 +25,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listView;
+    private SQLiteDatabase db;
+    private MyDatabaseHelper databaseHelper;
 
     private ArrayList<HashMap<String, String>> getData() {
         ArrayList<HashMap<String, String>> data = new ArrayList<>();
@@ -29,15 +34,49 @@ public class MainActivity extends AppCompatActivity
         map.put("ItemTitle", "ACL，EMNLP");
         map.put("ItemText", "11月2日");
         data.add(map);
-        map=new HashMap<>();
+        map = new HashMap<>();
         map.put("ItemTitle", "NLP");
         map.put("ItemText", "11月3日");
         data.add(map);
-        map=new HashMap<>();
+        map = new HashMap<>();
         map.put("ItemTitle", "GRE");
         map.put("ItemText", "11月3日");
         data.add(map);
+        Cursor cursor=db.query("memo_info",null,null,null,null,null,null);
+        if(cursor.moveToFirst()) {
+            int temp=cursor.getCount();
+            for(int i=0;i<cursor.getCount();i++){
+                cursor.move(i);
+                int id = cursor.getInt(0);
+                String time=cursor.getString(1);
+                String content=cursor.getString(2);
+//                System.out.println(id+":"+sname+":"+snumber);
+                map=new HashMap<>();
+                map.put("ItemTitle",content);
+                map.put("ItemText",time);
+                data.add(map);
+            }
+        }
         return data;
+    }
+
+    private void createDatabaseWithTable() {
+        databaseHelper=new MyDatabaseHelper(this,"memo.db",null,1);
+        databaseHelper.getWritableDatabase();
+        db = SQLiteDatabase.openOrCreateDatabase("/data/data/com.example.jzy_1996.memorandum/databases/memo.db", null);
+        String memo_drop="drop table if exists memo_info";
+        db.execSQL(memo_drop);
+        String memo_info =
+                "create table if not exists " +
+                        "memo_info(" +
+                        "_id integer primary key autoincrement," +
+                        "time text," +
+                        "content text)";
+        db.execSQL(memo_info);
+        ContentValues cValue = new ContentValues();
+        cValue.put("time", "2017年12月12日");
+        cValue.put("content", "Test the content");
+        db.insert("memo_info", null, cValue);
     }
 
     private void createListView() {
@@ -54,7 +93,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
+                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
             }
         });
     }
@@ -66,6 +105,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        createDatabaseWithTable();
         createListView();
 
 //        listView=new ListView(this);
@@ -115,8 +155,11 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_library) {
-
+        if (id == R.id.nav_new) {
+            Intent intent = new Intent(MainActivity.this, NewActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            finish();
         } else if (id == R.id.nav_view) {
 
         } else if (id == R.id.nav_delete) {

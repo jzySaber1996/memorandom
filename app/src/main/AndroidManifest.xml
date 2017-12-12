@@ -24,6 +24,11 @@
             android:label="@string/edit_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".NewActivity"
+            android:label="@string/new_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
