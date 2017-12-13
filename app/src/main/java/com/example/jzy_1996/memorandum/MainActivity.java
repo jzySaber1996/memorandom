@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity
                 String selection = "_id=?";
                 String[] selectionArgs = new String[]{String.valueOf(l + 1)};
                 Cursor cursor = db.query(table, columns, selection, selectionArgs, null, null, null);
-                String time="";
-                String content="";
+                String time = "";
+                String content = "";
                 if (cursor.moveToFirst()) {
                     while (!cursor.isAfterLast()) {
                         time = cursor.getString(0);
@@ -103,12 +103,20 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 Intent intent = new Intent();
+                intent.putExtra("id", String.valueOf(l + 1));
                 intent.putExtra("time", time);
                 intent.putExtra("content", content);
                 intent.setClass(MainActivity.this, EditActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                return false;
             }
         });
     }

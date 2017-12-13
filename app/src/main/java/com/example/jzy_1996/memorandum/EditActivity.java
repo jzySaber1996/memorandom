@@ -1,6 +1,8 @@
 package com.example.jzy_1996.memorandum;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,9 +20,9 @@ import android.widget.TextView;
  * Created by jzy_1996 on 2017/12/8.
  */
 
-public class EditActivity extends AppCompatActivity{
+public class EditActivity extends AppCompatActivity {
 
-//    private static final int XSPEED_MIN = 200;
+    //    private static final int XSPEED_MIN = 200;
 //
 //    private static final int XDISTANCE_MIN = 150;
 //
@@ -29,26 +31,38 @@ public class EditActivity extends AppCompatActivity{
 //    private float xMove;
 //
 //    private VelocityTracker mVelocityTracker;
+    private SQLiteDatabase db;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_main);
-        Intent intent=getIntent();
-        EditText editText=(EditText)findViewById(R.id.editMain);
-        TextView textView=(TextView)findViewById(R.id.textTime);
-        textView.setText(intent.getStringExtra("time"));
-        editText.setText(intent.getStringExtra("content"));
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        db = SQLiteDatabase.openOrCreateDatabase("/data/data/com.example.jzy_1996.memorandum/databases/memo.db", null);
+        Intent intent = getIntent();
+        final EditText editText = (EditText) findViewById(R.id.editMain);
+        final TextView textView = (TextView) findViewById(R.id.textTime);
+        final String id=intent.getStringExtra("id");
+        String time=intent.getStringExtra("time");
+        String content=intent.getStringExtra("content");
+        textView.setText(time);
+        editText.setText(content);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setTitle("编辑");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(EditActivity.this,MainActivity.class);
+                String content_new= String.valueOf(editText.getText());
+                String time_new= (String) textView.getText();
+                ContentValues contentValues=new ContentValues();
+                contentValues.put("time",time_new);
+                contentValues.put("content",content_new);
+                String[] stringArgs=new String[]{id};
+                db.update("memo_info",contentValues,"_id=?",stringArgs);
+                Intent intent = new Intent(EditActivity.this, MainActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.in_from_left,R.anim.out_to_right);
+                overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
                 finish();
             }
         });
