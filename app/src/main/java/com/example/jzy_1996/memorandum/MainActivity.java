@@ -44,19 +44,31 @@ public class MainActivity extends AppCompatActivity
         data.add(map);
         Cursor cursor=db.query("memo_info",null,null,null,null,null,null);
         if(cursor.moveToFirst()) {
-            int temp=cursor.getCount();
-            for(int i=0;i<cursor.getCount();i++){
-                cursor.move(i);
-                int id = cursor.getInt(0);
+            while (!cursor.isAfterLast()){
+                int id=cursor.getInt(0);
                 String time=cursor.getString(1);
                 String content=cursor.getString(2);
-//                System.out.println(id+":"+sname+":"+snumber);
                 map=new HashMap<>();
                 map.put("ItemTitle",content);
                 map.put("ItemText",time);
+                cursor.moveToNext();
                 data.add(map);
             }
+//            int temp=cursor.getCount();
+//            for(int i=0;i<cursor.getCount();i++){
+//                cursor.move(i);
+//                int id = cursor.getInt(0);
+//                String time=cursor.getString(1);
+//                String content=cursor.getString(2);
+////                System.out.println(id+":"+sname+":"+snumber);
+//                map=new HashMap<>();
+//                map.put("ItemTitle",content);
+//                map.put("ItemText",time);
+//                data.add(map);
+//            }
         }
+        cursor.close();
+        db.close();
         return data;
     }
 
@@ -64,8 +76,8 @@ public class MainActivity extends AppCompatActivity
         databaseHelper=new MyDatabaseHelper(this,"memo.db",null,1);
         databaseHelper.getWritableDatabase();
         db = SQLiteDatabase.openOrCreateDatabase("/data/data/com.example.jzy_1996.memorandum/databases/memo.db", null);
-        String memo_drop="drop table if exists memo_info";
-        db.execSQL(memo_drop);
+//        String memo_drop="drop table if exists memo_info";
+//        db.execSQL(memo_drop);
         String memo_info =
                 "create table if not exists " +
                         "memo_info(" +
@@ -73,10 +85,7 @@ public class MainActivity extends AppCompatActivity
                         "time text," +
                         "content text)";
         db.execSQL(memo_info);
-        ContentValues cValue = new ContentValues();
-        cValue.put("time", "2017年12月12日");
-        cValue.put("content", "Test the content");
-        db.insert("memo_info", null, cValue);
+
     }
 
     private void createListView() {
