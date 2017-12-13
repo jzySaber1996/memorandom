@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -30,27 +31,16 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<HashMap<String, String>> getData() {
         ArrayList<HashMap<String, String>> data = new ArrayList<>();
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("ItemTitle", "ACL，EMNLP");
-        map.put("ItemText", "11月2日");
-        data.add(map);
-        map = new HashMap<>();
-        map.put("ItemTitle", "NLP");
-        map.put("ItemText", "11月3日");
-        data.add(map);
-        map = new HashMap<>();
-        map.put("ItemTitle", "GRE");
-        map.put("ItemText", "11月3日");
-        data.add(map);
-        Cursor cursor=db.query("memo_info",null,null,null,null,null,null);
-        if(cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()){
-                int id=cursor.getInt(0);
-                String time=cursor.getString(1);
-                String content=cursor.getString(2);
-                map=new HashMap<>();
-                map.put("ItemTitle",content);
-                map.put("ItemText",time);
+        HashMap<String, String> map;
+        Cursor cursor = db.query("memo_info", null, null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                int id = cursor.getInt(0);
+                String time = cursor.getString(1);
+                String content = cursor.getString(2);
+                map = new HashMap<>();
+                map.put("ItemTitle", content);
+                map.put("ItemText", time);
                 cursor.moveToNext();
                 data.add(map);
             }
@@ -67,13 +57,12 @@ public class MainActivity extends AppCompatActivity
 //                data.add(map);
 //            }
         }
-        cursor.close();
-        db.close();
+        //cursor.close();
         return data;
     }
 
     private void createDatabaseWithTable() {
-        databaseHelper=new MyDatabaseHelper(this,"memo.db",null,1);
+        databaseHelper = new MyDatabaseHelper(this, "memo.db", null, 1);
         databaseHelper.getWritableDatabase();
         db = SQLiteDatabase.openOrCreateDatabase("/data/data/com.example.jzy_1996.memorandum/databases/memo.db", null);
 //        String memo_drop="drop table if exists memo_info";
@@ -99,7 +88,24 @@ public class MainActivity extends AppCompatActivity
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                String table = "memo_info";
+                String[] columns = new String[]{"time", "content"};
+                String selection = "_id=?";
+                String[] selectionArgs = new String[]{String.valueOf(l + 1)};
+                Cursor cursor = db.query(table, columns, selection, selectionArgs, null, null, null);
+                String time="";
+                String content="";
+                if (cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast()) {
+                        time = cursor.getString(0);
+                        content = cursor.getString(1);
+                        cursor.moveToNext();
+                    }
+                }
+                Intent intent = new Intent();
+                intent.putExtra("time", time);
+                intent.putExtra("content", content);
+                intent.setClass(MainActivity.this, EditActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);

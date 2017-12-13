@@ -23,13 +23,13 @@
     </android.support.design.widget.AppBarLayout>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="2017年11月9日" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:ems="10"

@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * Created by jzy_1996 on 2017/12/8.
@@ -34,6 +35,11 @@ public class EditActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_main);
+        Intent intent=getIntent();
+        EditText editText=(EditText)findViewById(R.id.editMain);
+        TextView textView=(TextView)findViewById(R.id.textTime);
+        textView.setText(intent.getStringExtra("time"));
+        editText.setText(intent.getStringExtra("content"));
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setTitle("编辑");
@@ -47,7 +53,7 @@ public class EditActivity extends AppCompatActivity{
             }
         });
 
-        EditText editText=(EditText)findViewById(R.id.editText2);
+
         //editText.setOnTouchListener(this);
     }
 
