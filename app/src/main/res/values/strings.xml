@@ -2,6 +2,7 @@
     <string name="app_name">Memorandum</string>
     <string name="edit_name">Edit</string>
     <string name="new_name">New</string>
+    <string name="remind_name">Remind</string>
     <string name="trash_name">Trash</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

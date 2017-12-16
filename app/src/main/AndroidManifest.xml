@@ -29,6 +29,12 @@
             android:label="@string/new_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".RemindActivity"
+            android:label="@string/remind_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
