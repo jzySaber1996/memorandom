@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jzy_1996.memorandum">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,6 +38,20 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <receiver
+            android:name=".CallAlarmReceiver"
+            android:process=":remote">
+
+        </receiver>
+        <activity
+            android:name=".NotifySMSReceived"
+            android:label="@string/notify_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <service
+            android:name=".MusicService">
+        </service>
     </application>
 
 </manifest>

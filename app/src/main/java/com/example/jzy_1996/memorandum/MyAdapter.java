@@ -1,7 +1,5 @@
 package com.example.jzy_1996.memorandum;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,12 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +23,8 @@ import java.util.List;
 public class MyAdapter extends BaseAdapter {
     private Context mContext;
     private List<HashMap<String, String>> mList = new ArrayList<>();
-    private TimePickerDialog timePickerDialog;
-    private DatePickerDialog datePickerDialog;
+//    private TimePickerDialog timePickerDialog;
+//    private DatePickerDialog datePickerDialog;
     private SQLiteDatabase db=SQLiteDatabase.openOrCreateDatabase("/data/data/com.example.jzy_1996.memorandum/databases/memo.db", null);
 
     public MyAdapter(Context context, List<HashMap<String, String>> list) {
@@ -65,7 +60,7 @@ public class MyAdapter extends BaseAdapter {
             viewHolder.mImageView = (ImageView) view.findViewById(R.id.image_alarm_time);
             viewHolder.mInformText = (LinearLayout) view.findViewById(R.id.remind_text);
 
-            viewHolder.mFinish = (LinearLayout) view.findViewById(R.id.finish_choose);
+            viewHolder.mDelete = (ImageView) view.findViewById(R.id.delete_remind);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -85,11 +80,16 @@ public class MyAdapter extends BaseAdapter {
                 mOnItemAlarmClickListener.onAlarmClick(i);
             }
         });
+
+        viewHolder.mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemDeleteClickListener.onDeleteClick(i);
+            }
+        });
         return view;
     }
-    /**
-     * 删除按钮的监听接口
-     */
+
     public interface OnItemAlarmClickListener {
         void onAlarmClick(int i);
     }
@@ -100,12 +100,21 @@ public class MyAdapter extends BaseAdapter {
         this.mOnItemAlarmClickListener = mOnItemAlarmClickListener;
     }
 
+    public interface OnItemDeleteClickListener {
+        void onDeleteClick(int i);
+    }
+
+    private OnItemDeleteClickListener mOnItemDeleteClickListener;
+    public void setOnItemDeleteClickListener(OnItemDeleteClickListener mOnItemDeleteClickListener){
+        this.mOnItemDeleteClickListener=mOnItemDeleteClickListener;
+    }
+
     class ViewHolder {
         ImageView mImageView;
         LinearLayout mInformText;
         TextView mItemTitle;
         TextView mItemText;
-        LinearLayout mFinish;
+        ImageView mDelete;
     }
 
 }
