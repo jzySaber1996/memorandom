@@ -49,6 +49,13 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <activity
+            android:name=".PersonalInfoActivity"
+            android:label="@string/personal_name"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
         <service
             android:name=".MusicService">
         </service>

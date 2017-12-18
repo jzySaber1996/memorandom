@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -17,8 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.sql.DataTruncation;
 import java.util.ArrayList;
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity
 //        db.execSQL(memo_drop_trash);
 //        String memo_drop_remind="drop table if exists memo_remind";
 //        db.execSQL(memo_drop_remind);
+//        String memo_drop_personal="drop table if exists memo_person";
+//        db.execSQL(memo_drop_personal);
         String memo_info =
                 "create table if not exists " +
                         "memo_info(" +
@@ -121,9 +126,27 @@ public class MainActivity extends AppCompatActivity
                         "remindSecond int, " +
                         "finish int, " +
                         "remind int)";
+        String memo_personal =
+                "create table if not exists " +
+                        "memo_person(" +
+                        "_id integer, " +
+                        "username text, " +
+                        "phoneNumber text, " +
+                        "realName text, " +
+                        "sex text, " +
+                        "mailbox text)";
         db.execSQL(memo_info);
         db.execSQL(memo_trash);
         db.execSQL(memo_remind);
+        db.execSQL(memo_personal);
+//        ContentValues cValue = new ContentValues();
+//        cValue.put("_id", 1);
+//        cValue.put("username", "jzy_1996");
+//        cValue.put("phoneNumber", "13306700099");
+//        cValue.put("realName", "Johnny Nick");
+//        cValue.put("sex","男");
+//        cValue.put("mailbox","529930262@qq.com");
+//        db.insert("memo_person", null, cValue);
     }
 
     private void createListView() {
@@ -413,8 +436,27 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Cursor cursor;
+        cursor=db.query("memo_person",new String[]{"username","mailbox"},"_id=?",new String[]{String.valueOf(1)},null,null,null);
+        cursor.moveToFirst();
+        View headerLayout =
+                navigationView.getHeaderView(0);
+        TextView textName=(TextView)headerLayout.findViewById(R.id.text_person);
+        TextView textMail=(TextView)headerLayout.findViewById(R.id.text_mail);
+        ImageView imgHead=(ImageView)headerLayout.findViewById(R.id.imgHead);
+        imgHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,PersonalInfoActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                finish();
+            }
+        });
+        textName.setText(cursor.getString(0));
+        textMail.setText(cursor.getString(1));
         navigationView.setNavigationItemSelectedListener(this);
-    }
+}
 
     @Override
     public void onBackPressed() {
@@ -503,7 +545,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_library) {
             createListView();
         } else if (id == R.id.nav_person) {
-
+            Intent intent=new Intent(MainActivity.this,PersonalInfoActivity.class);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+            finish();
         } else if (id == R.id.nav_delete) {
             createTrashView();
         }

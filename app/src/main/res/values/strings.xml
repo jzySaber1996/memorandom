@@ -5,6 +5,7 @@
     <string name="remind_name">Remind</string>
     <string name="trash_name">Trash</string>
     <string name="notify_name">Notify</string>
+    <string name="personal_name">Personal</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

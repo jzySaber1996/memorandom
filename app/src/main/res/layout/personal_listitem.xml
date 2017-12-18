@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MyListItem"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="3dip"
+    android:paddingLeft="10dip">
+
+
+    <TextView
+        android:id="@+id/ItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:text="用户名："
+        android:textColor="#000000"
+        android:textSize="25dip">
+    </TextView>
+
+    <TextView
+        android:id="@+id/ItemText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:text="Jzy"
+        android:textColor="#888888"
+        android:textSize="20dp">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/modify"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:layout_weight="5"
+
+        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+        tools:ignore="VectorDrawableCompat" />
+
+
+</LinearLayout>
+
